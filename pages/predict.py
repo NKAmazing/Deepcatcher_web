@@ -460,9 +460,9 @@ def predict_view():
 def tutorial_option():
     st.markdown(
             """
-            ## Deepcatcher Demo - Prediction
+            ## Tutorial - Prediction
 
-            Welcome to the Deepcatcher Demo Prediction page! Here you can upload images and get predictions on whether they are real or fake.
+            Welcome to the Deepcatcher Demo Prediction page! Here you can upload images and get predictions on whether they are real or fake. Let's see a little guide on how to use this page.
 
             ### Instructions:
             1. **Select an Option**: Choose between the **Predict** option to upload images and get predictions, or the **History** option to view your prediction history.
