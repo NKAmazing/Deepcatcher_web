@@ -1,8 +1,0 @@
-tensorflow<2.11
-pillow==10.3.0
-streamlit==1.35.0
-streamlit-option-menu==0.3.12
-requests==2.31.0
-streamlit-elements==0.1.0
-streamlit-modal==0.1.2
-st-pages==0.4.5
