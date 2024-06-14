@@ -74,13 +74,7 @@ cd ..
 pip install -r requirements.txt
 ```
 
-4. Access the app folder:
-
-```sh
-cd app
-```
-
-5. Run Streamlit Server:
+4. Run Streamlit Server:
 
 ```sh
 streamlit run .\main.py
