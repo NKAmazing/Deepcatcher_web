@@ -7,10 +7,17 @@ import requests
 from streamlit_elements import elements, mui
 
 # List of Model paths
-model_paths = ['models/model_3.h5', 'models/model_4.h5']
+model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
 
 # Load the model
-model = tf.keras.models.load_model(model_paths[0])
+model_index = 2  # Cambia este índice para seleccionar el modelo deseado
+model = tf.keras.models.load_model(model_paths[model_index])
+
+# Definir el tamaño de entrada esperado según el modelo
+if model_index in [2, 3]:  # mobilenet_model.h5 o xception_model.h5
+    model_input_size = (224, 224)
+else:  # model_3.h5 o model_4.h5
+    model_input_size = (96, 96)
 
 # Set the page configuration
 st.set_page_config(page_title="Deepcatcher Demo - Prediction", page_icon=":computer:")
@@ -59,22 +66,22 @@ def predict(image_data, model):
         model: Trained model
     '''
     try:
-        # Define the classes
-        classes = ['Fake', 'Real']
-
-        # Perform prediction on the image data
+        # Realizar la predicción
         prediction = model.predict(image_data)
-
-        # Get the prediction values
         pred_values = tf.squeeze(prediction).numpy()
 
-        # Get the predicted class
-        prediction = classes[tf.argmax(pred_values)]
+        # Si la salida es escalar (modelo binario)
+        if np.isscalar(pred_values) or pred_values.shape == ():
+            predicted_class = 'Real' if pred_values >= 0.5 else 'Fake'
+            confidence = pred_values * 100 if predicted_class == 'Real' else (1 - pred_values) * 100
+        else:
+            # Multiclase (vector de probabilidades)
+            classes = ['Fake', 'Real']
+            idx = np.argmax(pred_values)
+            predicted_class = classes[idx]
+            confidence = pred_values[idx] * 100
 
-        # Get the confidence of the prediction
-        confidence = pred_values[tf.argmax(pred_values)] * 100
-
-        return prediction, confidence
+        return predicted_class, confidence
     except Exception as e:
         st.error(f"Prediction Error: {str(e)}")
         return None, None
@@ -363,91 +370,48 @@ def predict_view():
         if len(uploaded_files) <= 2:
             cols = st.columns(len(uploaded_files))
             for i, uploaded_file in enumerate(uploaded_files):
-
-                # Set the index
                 index = i
-
-                # Preprocess the uploaded image
-                image = preprocess_image(uploaded_file, target_size=(96, 96))
+                # Preprocess the uploaded image con el tamaño correcto
+                image = preprocess_image(uploaded_file, target_size=model_input_size)
 
                 if image is not None:
-                    # Perform prediction
                     predicted_class, confidence = predict(image, model)
 
                     if predicted_class is not None:
-                        # Display prediction result
                         cols[i].image(uploaded_file, caption=f'Uploaded Image ({predicted_class}, {confidence:.2f}%)', use_column_width=True)
-
-                        # Place the save button in the correct column
                         with cols[i]:
-                            # Save prediction button with index image
                             if st.button(f"Save Prediction {index+1}"):
-                                # Check if the user is authenticated
                                 if 'authenticated' in st.session_state and st.session_state.authenticated:
-                                    # Get the user ID
                                     user_id = get_user_id(st.session_state.token)
-
-                                    # Get the current predictions saved of the user
                                     predictions = get_prediction_history(user_id, st.session_state.token)
-
-                                    # Check if the user has already exceeded the limit of 10 saved predictions
                                     if len(predictions) >= 10:
                                         st.warning('You have reached the limit of 10 saved predictions.')
                                     else:
-                                        # Save the prediction
                                         with st.expander("Prediction Status", expanded=True):
                                             save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
                                 else:
                                     st.warning('Please login to save the prediction.')
         else:
-            # Calculate the number of rows based on the number of uploaded files
             rows = (len(uploaded_files) + cols_per_row - 1) // cols_per_row
-
-            # Iterate over the rows and columns to display the uploaded images
             for row in range(rows):
-                # Create columns for each row
                 cols = st.columns(cols_per_row)
-
-                # Iterate over the columns in each row
                 for col_index in range(cols_per_row):
-
-                    # Calculate the index of the uploaded file
                     index = row * cols_per_row + col_index
-
-                    # Check if the index is less than the number of uploaded files
                     if index < len(uploaded_files):
-
-                        # Set the current uploaded file based on the index
                         uploaded_file = uploaded_files[index]
-
-                        # Set the column to display the uploaded image using the current column index
                         with cols[col_index]:
-                            # Preprocess the uploaded image
-                            image = preprocess_image(uploaded_file, target_size=(96, 96))
-
+                            image = preprocess_image(uploaded_file, target_size=model_input_size)
                             if image is not None:
-                                # Perform prediction
                                 predicted_class, confidence = predict(image, model)
-
                                 if predicted_class is not None:
-                                    # Display prediction result
                                     st.image(uploaded_file, caption=f'Uploaded Image ({predicted_class}, {confidence:.2f}%)', use_column_width=True)
-
-                                    # Save prediction button with index image            
                                     if st.button(f"Save Prediction {index+1}"):
-                                        # Check if the user is authenticated
                                         if 'authenticated' in st.session_state and st.session_state.authenticated:
-                                            # Get the user ID
                                             user_id = get_user_id(st.session_state.token)
-
-                                            # Get the current predictions saved of the user
                                             predictions = get_prediction_history(user_id, st.session_state.token)
-                                            
-                                            # Check if the user has already exceeded the limit of 10 saved predictions
                                             if len(predictions) >= 10:
                                                 st.warning('You have reached the limit of 10 saved predictions.')
                                             else:
-                                                # Save the prediction
                                                 with st.expander("Prediction Status", expanded=True):
                                                     save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
                                         else:
