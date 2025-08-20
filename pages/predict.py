@@ -10,7 +10,7 @@ from streamlit_elements import elements, mui
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
 
 # Load the model
-model_index = 2  # Cambia este índice para seleccionar el modelo deseado
+model_index = 3  # Cambia este índice para seleccionar el modelo deseado
 model = tf.keras.models.load_model(model_paths[model_index])
 
 # Definir el tamaño de entrada esperado según el modelo
@@ -74,12 +74,33 @@ def predict(image_data, model):
         if np.isscalar(pred_values) or pred_values.shape == ():
             predicted_class = 'Real' if pred_values >= 0.5 else 'Fake'
             confidence = pred_values * 100 if predicted_class == 'Real' else (1 - pred_values) * 100
+            # Mostrar texto centrado, color amarillo y valor resaltado
+            color = '#FFD600'  # amarillo
+            value_color = 'green' if predicted_class == 'Real' else 'red'
+            value_text = 'REAL' if predicted_class == 'Real' else 'FAKE'
+            html = f'''
+            <div style="display: flex; justify-content: center;">
+                <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
+                <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
+            </div>
+            '''
+            st.markdown(html, unsafe_allow_html=True)
         else:
             # Multiclase (vector de probabilidades)
             classes = ['Fake', 'Real']
             idx = np.argmax(pred_values)
             predicted_class = classes[idx]
             confidence = pred_values[idx] * 100
+            color = '#00B8D4'  # celeste
+            value_color = 'green' if predicted_class == 'Real' else 'red'
+            value_text = predicted_class.upper()
+            html = f'''
+            <div style="display: flex; justify-content: center;">
+                <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
+                <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
+            </div>
+            '''
+            st.markdown(html, unsafe_allow_html=True)
 
         return predicted_class, confidence
     except Exception as e:
@@ -371,15 +392,28 @@ def predict_view():
             cols = st.columns(len(uploaded_files))
             for i, uploaded_file in enumerate(uploaded_files):
                 index = i
-                # Preprocess the uploaded image con el tamaño correcto
                 image = preprocess_image(uploaded_file, target_size=model_input_size)
 
                 if image is not None:
                     predicted_class, confidence = predict(image, model)
 
                     if predicted_class is not None:
-                        cols[i].image(uploaded_file, caption=f'Uploaded Image ({predicted_class}, {confidence:.2f}%)', use_column_width=True)
-                        with cols[i]:
+                        # Mostrar imagen
+                        cols[i].image(uploaded_file, use_column_width=True)
+                        # Centrar el caption debajo de la imagen, solo texto color amarillo
+                        caption_html = f'''
+                        <div style="display: flex; justify-content: center;">
+                            <span style="color: #FFD600; font-weight: bold; font-size: 1.1rem; margin-top: 8px;">
+                                Uploaded Image ({predicted_class}, {confidence:.2f}%)
+                            </span>
+                        </div>
+                        '''
+                        cols[i].markdown(caption_html, unsafe_allow_html=True)
+                        # Espacio visual entre el caption y el botón
+                        cols[i].markdown('<div style="height: 18px;"></div>', unsafe_allow_html=True)
+                        # Centrar el botón usando subcolumnas
+                        subcols = cols[i].columns([1,5,1])
+                        with subcols[1]:
                             if st.button(f"Save Prediction {index+1}"):
                                 if 'authenticated' in st.session_state and st.session_state.authenticated:
                                     user_id = get_user_id(st.session_state.token)
@@ -404,18 +438,32 @@ def predict_view():
                             if image is not None:
                                 predicted_class, confidence = predict(image, model)
                                 if predicted_class is not None:
-                                    st.image(uploaded_file, caption=f'Uploaded Image ({predicted_class}, {confidence:.2f}%)', use_column_width=True)
-                                    if st.button(f"Save Prediction {index+1}"):
-                                        if 'authenticated' in st.session_state and st.session_state.authenticated:
-                                            user_id = get_user_id(st.session_state.token)
-                                            predictions = get_prediction_history(user_id, st.session_state.token)
-                                            if len(predictions) >= 10:
-                                                st.warning('You have reached the limit of 10 saved predictions.')
+                                    st.image(uploaded_file, use_column_width=True)
+                                    # Centrar el caption debajo de la imagen, solo texto color celeste
+                                    caption_html = f'''
+                                    <div style="display: flex; justify-content: center;">
+                                        <span style="color: #00B8D4; font-size: 1rem; margin-top: 8px;">
+                                            Uploaded Image ({predicted_class}, {confidence:.2f}%)
+                                        </span>
+                                    </div>
+                                    '''
+                                    st.markdown(caption_html, unsafe_allow_html=True)
+                                    # Espacio visual entre el caption y el botón
+                                    st.markdown('<div style="height: 18px;"></div>', unsafe_allow_html=True)
+                                    # Centrar el botón usando subcolumnas
+                                    subcols = st.columns([1,5,1])
+                                    with subcols[1]:
+                                        if st.button(f"Save Prediction {index+1}"):
+                                            if 'authenticated' in st.session_state and st.session_state.authenticated:
+                                                user_id = get_user_id(st.session_state.token)
+                                                predictions = get_prediction_history(user_id, st.session_state.token)
+                                                if len(predictions) >= 10:
+                                                    st.warning('You have reached the limit of 10 saved predictions.')
+                                                else:
+                                                    with st.expander("Prediction Status", expanded=True):
+                                                        save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
                                             else:
-                                                with st.expander("Prediction Status", expanded=True):
-                                                    save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
-                                        else:
-                                            st.warning('Please login to save the prediction.')
+                                                st.warning('Please login to save the prediction.')
 
 # ----------------------------------------------------------------------------------------------------------------
 # Tutorial Option
