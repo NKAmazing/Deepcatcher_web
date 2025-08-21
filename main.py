@@ -12,6 +12,7 @@ show_pages(
         Page("pages/authenticate.py", "User Authentication", "🔒"),
         Page("pages/report.py", "Report", "📝"),
         Page("pages/information.py", "About", "📄"),
+        Page("pages/login.py", "Login", "❓")
     ]
 )
 

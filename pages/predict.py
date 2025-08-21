@@ -5,12 +5,13 @@ import numpy as np
 from PIL import Image
 import requests
 from streamlit_elements import elements, mui
+from pages.utils.auth import show_sidebar_auth
 
 # List of Model paths
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
 
 # Load the model
-model_index = 3  # Cambia este índice para seleccionar el modelo deseado
+model_index = 3  # Cambiar este índice para elegir el modelo (lista model_paths)
 model = tf.keras.models.load_model(model_paths[model_index])
 
 # Definir el tamaño de entrada esperado según el modelo
@@ -27,6 +28,9 @@ st.sidebar.title("Deepcatcher Demo")
 
 # Set the options in the sidebar
 options = st.sidebar.radio("Select an option: ", ["Predict Menu", "Tutorial"])
+
+# Show the login sidebar
+show_sidebar_auth()
 
 # Function to preprocess the uploaded image
 def preprocess_image(image, target_size):
