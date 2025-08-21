@@ -412,7 +412,7 @@ def predict_view():
                         # Espacio visual entre el caption y el botón
                         cols[i].markdown('<div style="height: 18px;"></div>', unsafe_allow_html=True)
                         # Centrar el botón usando subcolumnas
-                        subcols = cols[i].columns([1,5,1])
+                        subcols = cols[i].columns([1,2,1])
                         with subcols[1]:
                             if st.button(f"Save Prediction {index+1}"):
                                 if 'authenticated' in st.session_state and st.session_state.authenticated:
