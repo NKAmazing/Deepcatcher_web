@@ -74,33 +74,12 @@ def predict(image_data, model):
         if np.isscalar(pred_values) or pred_values.shape == ():
             predicted_class = 'Real' if pred_values >= 0.5 else 'Fake'
             confidence = pred_values * 100 if predicted_class == 'Real' else (1 - pred_values) * 100
-            # Mostrar texto centrado, color amarillo y valor resaltado
-            color = '#FFD600'  # amarillo
-            value_color = 'green' if predicted_class == 'Real' else 'red'
-            value_text = 'REAL' if predicted_class == 'Real' else 'FAKE'
-            html = f'''
-            <div style="display: flex; justify-content: center;">
-                <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
-                <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
-            </div>
-            '''
-            st.markdown(html, unsafe_allow_html=True)
         else:
             # Multiclase (vector de probabilidades)
             classes = ['Fake', 'Real']
             idx = np.argmax(pred_values)
             predicted_class = classes[idx]
             confidence = pred_values[idx] * 100
-            color = '#00B8D4'  # celeste
-            value_color = 'green' if predicted_class == 'Real' else 'red'
-            value_text = predicted_class.upper()
-            html = f'''
-            <div style="display: flex; justify-content: center;">
-                <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
-                <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
-            </div>
-            '''
-            st.markdown(html, unsafe_allow_html=True)
 
         return predicted_class, confidence
     except Exception as e:
@@ -393,17 +372,31 @@ def predict_view():
             for i, uploaded_file in enumerate(uploaded_files):
                 index = i
                 image = preprocess_image(uploaded_file, target_size=model_input_size)
-
                 if image is not None:
                     predicted_class, confidence = predict(image, model)
-
+                    # Generar cartel HTML aquí
                     if predicted_class is not None:
+                        if predicted_class == 'Real':
+                            color = '#FFD600'
+                            value_color = 'green'
+                            value_text = 'REAL'
+                        else:
+                            color = '#FFD600'
+                            value_color = 'red'
+                            value_text = 'FAKE'
+                        html = f'''
+                        <div style="display: flex; justify-content: center;">
+                            <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
+                            <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
+                        </div>
+                        '''
+                        cols[i].markdown(html, unsafe_allow_html=True)
                         # Mostrar imagen
                         cols[i].image(uploaded_file, use_column_width=True)
-                        # Centrar el caption debajo de la imagen, solo texto color amarillo
+                        # Centrar el caption debajo de la imagen, solo texto color celeste
                         caption_html = f'''
                         <div style="display: flex; justify-content: center;">
-                            <span style="color: #FFD600; font-weight: bold; font-size: 1.1rem; margin-top: 8px;">
+                            <span style="color: #00B8D4; font-size: 1rem; margin-top: 8px;">
                                 Uploaded Image ({predicted_class}, {confidence:.2f}%)
                             </span>
                         </div>
@@ -411,20 +404,35 @@ def predict_view():
                         cols[i].markdown(caption_html, unsafe_allow_html=True)
                         # Espacio visual entre el caption y el botón
                         cols[i].markdown('<div style="height: 18px;"></div>', unsafe_allow_html=True)
-                        # Centrar el botón usando subcolumnas
-                        subcols = cols[i].columns([1,2,1])
-                        with subcols[1]:
-                            if st.button(f"Save Prediction {index+1}"):
-                                if 'authenticated' in st.session_state and st.session_state.authenticated:
-                                    user_id = get_user_id(st.session_state.token)
-                                    predictions = get_prediction_history(user_id, st.session_state.token)
-                                    if len(predictions) >= 10:
-                                        st.warning('You have reached the limit of 10 saved predictions.')
+                        if len(uploaded_files) == 2:
+                            # Centrar el botón usando subcolumnas
+                            subcols = cols[i].columns([1, 2, 1])
+                            with subcols[1]:
+                                if st.button(f"Save Prediction {index+1}"):
+                                    if 'authenticated' in st.session_state and st.session_state.authenticated:
+                                        user_id = get_user_id(st.session_state.token)
+                                        predictions = get_prediction_history(user_id, st.session_state.token)
+                                        if len(predictions) >= 10:
+                                            st.warning('You have reached the limit of 10 saved predictions.')
+                                        else:
+                                            with st.expander("Prediction Status", expanded=True):
+                                                save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
                                     else:
-                                        with st.expander("Prediction Status", expanded=True):
-                                            save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
-                                else:
-                                    st.warning('Please login to save the prediction.')
+                                        st.warning('Please login to save the prediction.')
+                        else:
+                            subcols = cols[i].columns([3, 4, 1])
+                            with subcols[1]:
+                                if st.button(f"Save Prediction {index+1}"):
+                                    if 'authenticated' in st.session_state and st.session_state.authenticated:
+                                        user_id = get_user_id(st.session_state.token)
+                                        predictions = get_prediction_history(user_id, st.session_state.token)
+                                        if len(predictions) >= 10:
+                                            st.warning('You have reached the limit of 10 saved predictions.')
+                                        else:
+                                            with st.expander("Prediction Status", expanded=True):
+                                                save_prediction(user_id, predicted_class, confidence, uploaded_file, st.session_state.token)
+                                    else:
+                                        st.warning('Please login to save the prediction.')
         else:
             rows = (len(uploaded_files) + cols_per_row - 1) // cols_per_row
             for row in range(rows):
@@ -438,6 +446,22 @@ def predict_view():
                             if image is not None:
                                 predicted_class, confidence = predict(image, model)
                                 if predicted_class is not None:
+                                    if predicted_class == 'Real':
+                                        color = '#FFD600'
+                                        value_color = 'green'
+                                        value_text = 'REAL'
+                                    else:
+                                        color = '#FFD600'
+                                        value_color = 'red'
+                                        value_text = 'FAKE'
+                                    html = f'''
+                                    <div style="display: flex; justify-content: center;">
+                                        <span style="color: {color}; font-weight: bold; font-size: 1.1rem;">Predicción:&nbsp;</span>
+                                        <span style="color: {value_color}; font-weight: bold; font-size: 1.1rem;">{value_text}</span>
+                                    </div>
+                                    '''
+                                    st.markdown(html, unsafe_allow_html=True)
+                                    # Mostrar imagen
                                     st.image(uploaded_file, use_column_width=True)
                                     # Centrar el caption debajo de la imagen, solo texto color celeste
                                     caption_html = f'''
