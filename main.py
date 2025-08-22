@@ -27,19 +27,21 @@ def get_base64_image(path):
     return f"data:image/jpeg;base64,{b64}"
 
 def main():
-    st.title("Deepcatcher Demo - Home") 
+    st.title("🏠 Home - Deepcatcher Demo") 
 
     # --- Navbar con scroll interno y borde blanco ---
     st.markdown(
         """
         <style>
         .navbar {
-            background-color: #222;
+            background: rgba(30, 34, 50, 0.45);
             overflow: hidden;
-            border-radius: 8px;
+            border-radius: 24px;
             margin-bottom: 20px;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.18);
+            box-shadow: 0 2px 8px rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         .navbar a {
             float: left;
@@ -70,26 +72,135 @@ def main():
         """, unsafe_allow_html=True
     )
 
-    # Adjust the size of the image and center it
+    # # Adjust the size of the image and center it
+    # st.markdown(
+    #     """
+    #     <style>
+    #     .center {
+    #         display: block;
+    #         margin-left: auto;
+    #         margin-right: auto;
+    #         width: 50%;
+    #     }
+    #     </style>
+    #     """, unsafe_allow_html=True
+    # )
+
+    # # Create columns to center the image
+    # left_co, cent_co, last_co = st.columns(3)
+
+    main_img = get_base64_image("static/Deepcatcher.png")
+
     st.markdown(
-        """
+        f"""
         <style>
-        .center {
+        .blur-box {{
+            margin: 40px auto 40px auto;
+            padding: 36px 32px 32px 32px;
+            max-width: 1700px;
+            width: 95%;
+            border-radius: 18px;
+            background: rgba(30, 34, 50, 0.45);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255,255,255,0.18);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }}
+        .blur-content {{
+            flex: 2;
+            text-align: left;
+        }}
+        .blur-title {{
+            font-size: 2.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            color: #fff;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }}
+        .blur-desc {{
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            margin-bottom: 22px;
+        }}
+        .blur-btn {{
+            display: inline-block;
+            margin: 8px 12px 0 0;
+            padding: 10px 28px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            border: 2px solid #222;
+            color: #222;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 0px 0px 0px #bbb;
+            transition: background 0.2s;
+            text-decoration: none;
+        }}
+        .blur-btn.signup {{
+            background: #d6f5d6; /* Verde claro */
+            color: #222;
+            border: 2px solid #d6f5d6; /* Borde igual al fondo */
+        }}
+        .blur-btn.getstarted {{
+            background: #218838; /* Verde oscuro */
+            color: #fff;
+            border: 2px solid #218838; /* Borde igual al fondo */
+        }}
+        .blur-btn.signup:hover {{
+            background: #b6f7c1;
+        }}
+        .blur-btn.getstarted:hover {{
+            background: #17692b;
+        }}
+        .blur-img {{
+            flex: 1;
+            margin-left: 24px;
+            max-width: 260px;
+            min-width: 180px;
+            border-radius: 50%;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
+            background: #fff;
+        }}
+        @media (max-width: 900px) {{
+            .blur-box {{
+                flex-direction: column;
+                text-align: center;
+                gap: 18px;
+            }}
+            .blur-content {{
+                text-align: center;
+            }}
+            .blur-img {{
+                margin-left: 0;
+                margin: 0 auto;
+            }}
+        }}
         </style>
+        <div class="blur-box">
+            <div class="blur-content">
+                <div class="blur-title">WELCOME TO DEEPCATCHER</div>
+                <div class="blur-desc">
+                    A new Deepfake detection app solution machine learning model designed to classify images as real or fake.
+                    This application leverages advanced deep learning techniques to identify deepfakes with high accuracy.
+                </div>
+                <a href="#signup" class="blur-btn signup">Sign Up for Free</a>
+                <a href="#get-started" class="blur-btn getstarted">Get Started</a>
+            </div>
+            <img src="{main_img}" class="blur-img" width="220"/>
+        </div>
         """, unsafe_allow_html=True
     )
 
-    # Create columns to center the image
-    left_co, cent_co, last_co = st.columns(3)
-
-    # Display the Deepcatcher image centered
-    with cent_co:
-        st.image("static/Deepcatcher.png", width=500, caption="Deepcatcher - Deepfake Detection App")
+    # # Display the Deepcatcher image centered
+    # with cent_co:
+    #     st.image("static/Deepcatcher.png", width=500, caption="Deepcatcher - Deepfake Detection App")
 
     # --- Sección Our Insight estilo masonry ---
     st.markdown(
@@ -97,7 +208,7 @@ def main():
         <hr style="border-top: 3px solid #bbb;">
         <div id="our-insight"></div>
         <div style="text-align: left;">
-            <h3>Our insight</h3>
+            <h3>Our Insight</h3>
             <p style="font-size:16px;">
                 Nuestra solución surge como una respuesta necesaria y accesible frente a la amenaza creciente de los Deepfakes. Para ello, hemos desarrollado Deepcatcher, una herramienta práctica y efectiva diseñada para reducir la propagación de contenido falso y empoderar a los usuarios con medios accesibles para verificar la autenticidad del contenido visual.
             </p>
@@ -239,7 +350,7 @@ def main():
     # --- Sección Features estilo highlights ---
     st.markdown(
         """
-        <hr style="border-top: 3px solid #bbb;">
+        <hr style="border-top: 1px solid #bbb;">
         <div id="features"></div>
         <div style="text-align: left; margin-right:8%;">
             <h3>Features</h3>
