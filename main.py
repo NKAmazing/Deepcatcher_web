@@ -1,5 +1,6 @@
 import streamlit as st
 from st_pages import Page, show_pages
+from pages.utils.auth import show_sidebar_auth
 
 # Set the page configuration
 st.set_page_config(page_title="Deepcatcher Demo - Home", page_icon=":globe_with_meridians:", initial_sidebar_state="expanded", layout="wide")
@@ -9,12 +10,15 @@ show_pages(
     [
         Page("main.py", "Home", "🏠"),
         Page("pages/predict.py", "Prediction", "💻"),
-        Page("pages/authenticate.py", "User Authentication", "🔒"),
+        # Page("pages/authenticate.py", "User Authentication", "🔒"),
         Page("pages/report.py", "Report", "📝"),
         Page("pages/information.py", "About", "📄"),
-        Page("pages/login.py", "Login", "❓")
+        # Page("pages/login.py", "Login", "❓")
     ]
 )
+
+# Show the login sidebar
+show_sidebar_auth()
 
 def main():
     # Set the title of the app

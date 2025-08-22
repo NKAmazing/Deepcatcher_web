@@ -2,9 +2,13 @@ import streamlit as st
 import requests
 from pages.utils.api_requests import get_user_id, get_prediction_history, get_user_reports
 from streamlit_option_menu import option_menu
+from pages.utils.auth import show_sidebar_auth
 
 # Set the page configuration
 st.set_page_config(page_title="Deepcatcher Demo - Home", page_icon=":clipboard:")
+
+# Show the login sidebar
+show_sidebar_auth()
 
 def report_view():
     # Verify user authentication

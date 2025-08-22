@@ -1,7 +1,11 @@
 import streamlit as st
+from pages.utils.auth import show_sidebar_auth
 
 # Set the page configuration
 st.set_page_config(page_title="About Deepcatcher", page_icon="📄", initial_sidebar_state="expanded", layout="wide")
+
+# Show the login sidebar
+show_sidebar_auth()
 
 def about():
     st.title("About Deepcatcher")

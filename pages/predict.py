@@ -24,7 +24,7 @@ else:  # model_3.h5 o model_4.h5
 st.set_page_config(page_title="Deepcatcher Demo - Prediction", page_icon=":computer:")
 
 # Set the sidebar title
-st.sidebar.title("Deepcatcher Demo")
+st.sidebar.title("🖥️ Deepcatcher Demo")
 
 # Set the options in the sidebar
 options = st.sidebar.radio("Select an option: ", ["Predict Menu", "Tutorial"])
@@ -538,7 +538,7 @@ def main():
     '''
     Main function to run the Streamlit page
     '''
-    st.title("Deepcatcher Demo")
+    st.title("🖥️ Deepcatcher Demo")
 
     # Check the selected option of the sidebar
     if options == "Predict Menu":

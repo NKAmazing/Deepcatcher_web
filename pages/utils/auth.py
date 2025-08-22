@@ -106,8 +106,9 @@ def auth_form():
 def show_sidebar_auth():
     init_auth_state()
     with st.sidebar:
+        st.title("🔒 User Authentication")
         if st.session_state.authenticated:
-            st.success(f"Welcome back {st.session_state.username}!")
+            st.markdown(f"✅ Logged as **{st.session_state.username}**.")  # Negrita con Markdown
             if st.button("Log Out"):
                 st.session_state.authenticated = False
                 st.session_state.token = None
