@@ -26,7 +26,7 @@ def footer():
             </div>
             <div style="margin-bottom: 10px;">Subscribe for weekly updates. No spams ever!</div>
             <form style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;" onsubmit="return false;">
-                <input type="email" placeholder="Placeholder: Your email address" style="padding: 6px 12px; border-radius: 6px; border: 2px solid #222; font-family: inherit; font-size: 1rem; outline: none; background: #f7f7f7;" disabled>
+                <input type="email" placeholder="Your email address here." style="padding: 6px 12px; border-radius: 6px; border: 2px solid #222; font-family: inherit; font-size: 1rem; outline: none; background: #f7f7f7;" disabled>
                 <button style="background: #222; color: #fff; border: 2px solid #222; border-radius: 6px; padding: 6px 18px; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: not-allowed;">Subscribe</button>
             </form>
             <div style="margin-bottom: 10px; font-size: 0.95rem;">Terms of Service</div>
