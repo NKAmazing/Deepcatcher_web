@@ -187,7 +187,7 @@ def main():
             <div class="blur-content">
                 <div class="blur-title">WELCOME TO DEEPCATCHER</div>
                 <div class="blur-desc">
-                    A new Deepfake detection app solution machine learning model designed to classify images as real or fake.
+                    A new Deepfake detection app solution using a machine learning model designed to classify images as real or fake. 
                     This application leverages advanced deep learning techniques to identify deepfakes with high accuracy.
                 </div>
                 <a href="#signup" class="blur-btn signup">Sign Up for Free</a>
@@ -210,8 +210,7 @@ def main():
         <div style="text-align: left;">
             <h3>Our Insight</h3>
             <p style="font-size:16px;">
-                Nuestra solución surge como una respuesta necesaria y accesible frente a la amenaza creciente de los Deepfakes. Para ello, hemos desarrollado Deepcatcher, una herramienta práctica y efectiva diseñada para reducir la propagación de contenido falso y empoderar a los usuarios con medios accesibles para verificar la autenticidad del contenido visual.
-            </p>
+                Our solution emerges as a necessary and accessible response to the growing threat of deepfakes. To this end, we have developed Deepcatcher, a practical and effective tool designed to reduce the spread of fake content and empower users with accessible means to verify the authenticity of visual content.
         </div>
         <style>
         .insight-masonry {
@@ -352,9 +351,9 @@ def main():
         """
         <hr style="border-top: 1px solid #bbb;">
         <div id="features"></div>
-        <div style="text-align: left; margin-right:8%;">
+        <div style="text-align: left;">
             <h3>Features</h3>
-            <p>Descripción breve de las features de la aplicación, resaltadas al estilo de highlights, en un lenguaje no tan técnico.</p>
+            <p>Our platform combines technological power with an accessible and reliable experience. Each feature is designed to deliver optimal performance, adapt to different scenarios, and always maintain a high level of quality.</p>
         </div>
         <style>
         .feature-card {
@@ -383,12 +382,12 @@ def main():
 
     # Cuadrícula de features (2 filas x 3 columnas)
     features = [
-        {"title": "Adaptable Performance", "desc": "Descripcion del Highlight"},
-        {"title": "Great user experience", "desc": "Descripcion del Highlight"},
-        {"title": "Innovative functionality", "desc": "Descripcion del Highlight"},
-        {"title": "Precision in the AI Model development", "desc": "Descripcion del Highlight"},
-        {"title": "Built to last", "desc": "Descripcion del Highlight"},
-        {"title": "Comfortable and Intuitive UI", "desc": "Descripcion del Highlight"},
+        {"title": "Adaptable Performance", "desc": "Designed to adapt to different workloads and environments, ensuring optimal results regardless of the complexity of the challenge."},
+        {"title": "Great user experience", "desc": "Each interaction is designed to be clear, fast, and efficient, ensuring the user can focus on what's important without distractions."},
+        {"title": "Innovative functionality", "desc": "We incorporate unique tools that boost productivity and open up new usage possibilities that go beyond the conventional."},
+        {"title": "Precision in the AI Model development", "desc": "Our artificial intelligence models prioritize accuracy and reliability, delivering trustworthy predictions for decision-making in a 73% of accuracy."},
+        {"title": "Built to last", "desc": "The system architecture is based on principles of scalability and robustness, ensuring its continuity and long-term evolution."},
+        {"title": "Comfortable and Intuitive UI", "desc": "A user-friendly and minimalist interface that allows anyone, regardless of their technical level, to take advantage of all the platform's capabilities."},
     ]
 
     for i in range(0, len(features), 3):
@@ -427,20 +426,20 @@ def main():
                 , unsafe_allow_html=True)
     st.markdown("### Frequently asked questions (FAQs)")
 
-    with st.expander("¿Cómo contactar a soporte por una predicción errónea?"):
-        st.write("Para crear un reporte y enviarlo a soporte debe ir al menú en la barra de navegación, seleccionar la predicción errónea y llenar el formulario.")
+    with st.expander("How do I contact support for an erroneous prediction?"):
+        st.write("To create a report and send it to support, go to the page selection in the navigation bar (left sidebar), select the erroneous prediction, and fill out the form.")
 
-    with st.expander("¿Cómo eliminar una cuenta registrada en la aplicación de manera permanente?"):
-        st.write("Para eliminar su cuenta, por favor contacte a soporte desde el formulario de contacto en la sección de reportes.")
+    with st.expander("How do I permanently delete an account registered in the app?"):
+        st.write("To delete your account, please contact support using the contact form in the reports section.")
 
-    with st.expander("¿Puede Deepcatcher detectar cualquier tipo de deepfake?"):
-        st.write("Deepcatcher está entrenado para detectar los tipos de deepfake más comunes, pero no garantiza la detección de todos los casos posibles.")
+    with st.expander("Can Deepcatcher detect any type of deepfake?"):
+        st.write("Deepcatcher is trained to detect the most common types of deepfake (face images), but it does not guarantee the detection of all possible cases.")
 
-    with st.expander("¿Es seguro cargar y almacenar mis imágenes en Deepcatcher?"):
-        st.write("Sí, Deepcatcher utiliza medidas de seguridad para proteger sus datos e imágenes.")
+    with st.expander("Is it safe to upload and store my images on Deepcatcher?"):
+        st.write("Yes, Deepcatcher uses security measures to protect your data and images.")
 
-    with st.expander("¿Necesito conocimientos técnicos para poder usar la aplicación?"):
-        st.write("No, la aplicación está diseñada para ser intuitiva y fácil de usar para cualquier persona.")
+    with st.expander("Do I need technical knowledge to use the app?"):
+        st.write("No, the application is designed to be intuitive and easy to use for anyone.")
 
     # --- Pie de página ---
     st.markdown(
