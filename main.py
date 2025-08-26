@@ -191,7 +191,7 @@ def main():
                     A new Deepfake detection app solution using a machine learning model designed to classify images as real or fake. 
                     This application leverages advanced deep learning techniques to identify deepfakes with high accuracy.
                 </div>
-                <a href="#signup" class="blur-btn signup">Sign Up for Free</a>
+                <a href="#sign-up" class="blur-btn signup">Sign Up for Free</a>
                 <a href="#get-started" class="blur-btn getstarted">Get Started</a>
             </div>
             <img src="{main_img}" class="blur-img" width="220"/>
@@ -421,6 +421,24 @@ def main():
                 <li><strong>Prediction:</strong> Upload an image and get a prediction.</li>
                 <li><strong>User Authentication:</strong> Log in or sign up to save your prediction history.</li>
                 <li><strong>Report:</strong> View and manage reports on the predictions you have made.</li>
+                <li><strong>About:</strong> Learn more about the app, its architecture, and the team behind it.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
+    # --- Sección de Sign for Free ---
+    st.markdown(
+        """
+        <div id="sign-up"></div>
+        <hr style="border-top: 1px solid #bbb;">
+        <div style="text-align: left;">
+            <h3>Sign Up for Free</h3>
+            <p>Create an account to take advantage of all the features:</p>
+            <ul>
+                <li><strong>Access to all features:</strong> Get the most out of the app.</li>
+                <li><strong>Save your prediction history:</strong> Keep track of your uploads and results.</li>
+                <li><strong>Receive updates:</strong> Stay informed about new features and improvements.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True
