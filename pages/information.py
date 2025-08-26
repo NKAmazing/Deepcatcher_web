@@ -43,6 +43,32 @@ def about():
         - **University**: Universidad de Mendoza
         """
     )
+
+    # st.title("Información del Sistema")
+
+    # # Selector de módulo
+    # opciones = ["Backend", "AI Model", "Frontend"]
+    # seleccion = st.radio("Selecciona un módulo:", opciones, horizontal=True)
+
+    # if seleccion == "Backend":
+    #     st.image("./static/backend_diagram.png", caption="API Diagram", width=260, clamp=True)
+    #     st.markdown("""
+    #     ### Backend
+    #     Descripción del Backend
+    #     """)
+    # elif seleccion == "AI Model":
+    #     st.image("static/aimodel_diagram.png", caption="AI Model Diagram", width=300, clamp=True)
+    #     st.markdown("""
+    #     ### AI Model
+    #     Descripción del Modelo de Inteligencia Artificial
+    #     """)
+    # elif seleccion == "Frontend":
+    #     st.image("static/frontend_diagram.png", caption="Frontend Diagram", width=300, clamp=True)
+    #     st.markdown("""
+    #     ### Frontend
+    #     Descripción del Frontend
+    #     """)
+
     footer()
 
 if __name__ == "__main__":
