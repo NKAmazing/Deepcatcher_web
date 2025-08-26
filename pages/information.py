@@ -1,5 +1,6 @@
 import streamlit as st
 from pages.utils.auth import show_sidebar_auth
+from pages.utils.footer import footer
 
 # Set the page configuration
 st.set_page_config(page_title="About Deepcatcher", page_icon="📄", initial_sidebar_state="expanded", layout="wide")
@@ -42,6 +43,7 @@ def about():
         - **University**: Universidad de Mendoza
         """
     )
+    footer()
 
 if __name__ == "__main__":
     about()

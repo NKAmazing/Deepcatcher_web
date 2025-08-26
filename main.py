@@ -2,6 +2,7 @@ import streamlit as st
 from st_pages import Page, show_pages
 from pages.utils.auth import show_sidebar_auth
 import base64
+from pages.utils.footer import footer
 
 # Set the page configuration
 st.set_page_config(page_title="Deepcatcher Demo - Home", page_icon=":globe_with_meridians:", initial_sidebar_state="expanded", layout="wide")
@@ -341,6 +342,11 @@ def main():
                 <img src="https://img.icons8.com/color/48/000000/cancel--v1.png" class="insight-cross"/>
                 <div class="insight-label">Fake</div>
             </div>
+            <div class="insight-masonry-card">
+                <img src="https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&w=400" class="insight-masonry-img"/>
+                <img src="https://img.icons8.com/color/48/000000/ok--v1.png" class="insight-check"/>
+                <div class="insight-label">Real</div>
+            </div>
         </div>
         <div class="insight-caption">Example Images</div>
         """, unsafe_allow_html=True
@@ -441,15 +447,7 @@ def main():
     with st.expander("Do I need technical knowledge to use the app?"):
         st.write("No, the application is designed to be intuitive and easy to use for anyone.")
 
-    # --- Pie de página ---
-    st.markdown(
-        """
-        <hr style="border-top: 3px solid #bbb;">
-        <div style="text-align: center;">
-            <p>We hope you find Deepcatcher useful for your needs. If you have any feedback or questions, feel free to reach out!</p>
-        </div>
-        """, unsafe_allow_html=True
-    )
+    footer()
 
 if __name__ == "__main__":
     main()

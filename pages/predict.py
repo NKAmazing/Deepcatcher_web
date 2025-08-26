@@ -6,6 +6,7 @@ from PIL import Image
 import requests
 from streamlit_elements import elements, mui
 from pages.utils.auth import show_sidebar_auth
+from pages.utils.footer import footer
 
 # List of Model paths
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
@@ -561,6 +562,7 @@ def main():
         tutorial_option()
     else:
         st.error("Invalid option selected.")
+    # footer()
 
 if __name__ == '__main__':
     main()
