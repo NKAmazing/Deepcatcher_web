@@ -11,11 +11,13 @@ def footer():
         with open(logo_path, "rb") as f:
             logo_base64 = base64.b64encode(f.read()).decode()
 
+# Font styles
+# font-family: 'Comic Sans MS', 'Comic Sans', 'Handwritten', cursive;
+
     st.markdown(
         f"""
         <hr style="border-top: 3px solid #bbb; margin-top: 40px;">
         <div style="
-            font-family: 'Comic Sans MS', 'Comic Sans', 'Handwritten', cursive;
             max-width: 1400px;
             margin: 32px 0 0 0;
             padding: 0 32px 16px 32px;
