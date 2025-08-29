@@ -11,6 +11,20 @@ show_sidebar_auth()
 def about():
     st.title("About Deepcatcher")
 
+    # # Border top
+    # st.markdown("---")
+
+    # Introducción
+    st.markdown(
+        """
+        ## Introduction
+        Deepcatcher is an innovative solution aimed at combating the growing threat of deepfake technology. By leveraging advanced machine learning algorithms, Deepcatcher provides users with the tools they need to identify and report manipulated images effectively.
+        """
+    )
+
+    # Border bottom
+    st.markdown("---")
+
     # Sección de Información General (Abstract)
     st.markdown(
         """
@@ -20,6 +34,9 @@ def about():
         The application also incorporates a user registration system, enabling users to log in, save their prediction results, and submit feedback or reports on the predictions made. This comprehensive approach ensures not only high accuracy in detecting fake images but also a user-friendly experience that facilitates ongoing interaction and improvement through user feedback. The combination of advanced AI techniques and a simplified web interface positions Deepcatcher as a valuable tool in the fight against digital image manipulation.
         """
     )
+
+    # Border top
+    st.markdown("---")
 
     # Sección de Arquitectura
     st.markdown("""
@@ -65,6 +82,9 @@ def about():
             - **File Management Microservice**: Facilitates the management of files that users upload for predictions.
             - **Deepcatcher Web Pages**: Provide the user interface to interact with the various functionalities of the application, such as uploading files for detection, viewing prediction history, and reports.
         """)
+
+    # Border bottom
+    st.markdown("---")
 
     # Sección de Future Improvements
     st.markdown("""
@@ -139,6 +159,9 @@ def about():
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    # Border bottom
+    st.markdown("---")
 
     # Sección de Créditos
     st.markdown(

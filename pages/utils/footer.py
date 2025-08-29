@@ -11,16 +11,18 @@ def footer():
         with open(logo_path, "rb") as f:
             logo_base64 = base64.b64encode(f.read()).decode()
 
-# Font styles
-# font-family: 'Comic Sans MS', 'Comic Sans', 'Handwritten', cursive;
+    # Font styles
+    # font-family: 'Comic Sans MS', 'Comic Sans', 'Handwritten', cursive;
+
+    # Border top
+    st.markdown("---")
 
     st.markdown(
         f"""
-        <hr style="border-top: 3px solid #bbb; margin-top: 40px;">
         <div style="
             max-width: 1400px;
-            margin: 32px 0 0 0;
-            padding: 0 32px 16px 32px;
+            margin: 24px 0 0 0;
+            padding: 0 24px 16px 32px;
         ">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                 <img src='data:image/png;base64,{logo_base64}' alt='Deepcatcher Logo' width='56' height='56' style='border-radius: 50px; border: 2px solid #222; background: #8ee7f1; display: inline-block;'>

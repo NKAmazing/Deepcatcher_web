@@ -203,10 +203,12 @@ def main():
     # with cent_co:
     #     st.image("static/Deepcatcher.png", width=500, caption="Deepcatcher - Deepfake Detection App")
 
+    # Border bottom
+    st.markdown("---")
+
     # --- Sección Our Insight estilo masonry ---
     st.markdown(
         """
-        <hr style="border-top: 3px solid #bbb;">
         <div id="our-insight"></div>
         <div style="text-align: left;">
             <h3>Our Insight</h3>
@@ -352,10 +354,12 @@ def main():
         """, unsafe_allow_html=True
     )
 
+    # Border bottom
+    st.markdown("---")
+
     # --- Sección Features estilo highlights ---
     st.markdown(
         """
-        <hr style="border-top: 1px solid #bbb;">
         <div id="features"></div>
         <div style="text-align: left;">
             <h3>Features</h3>
@@ -409,11 +413,13 @@ def main():
                     """, unsafe_allow_html=True
                 )
 
+    # Border bottom
+    st.markdown("---")
+
     # --- Sección Get Started ---
     st.markdown(
         """
         <div id="get-started"></div>
-        <hr style="border-top: 1px solid #bbb;">
         <div style="text-align: left;">
             <h3>Get Started</h3>
             <p>Use the sidebar to navigate through the different sections of the app:</p>
@@ -427,11 +433,13 @@ def main():
         """, unsafe_allow_html=True
     )
 
+    # Border bottom
+    st.markdown("---")
+
     # --- Sección de Sign for Free ---
     st.markdown(
         """
         <div id="sign-up"></div>
-        <hr style="border-top: 1px solid #bbb;">
         <div style="text-align: left;">
             <h3>Sign Up for Free</h3>
             <p>Create an account to take advantage of all the features:</p>
@@ -444,9 +452,11 @@ def main():
         """, unsafe_allow_html=True
     )
 
+    # Border bottom
+    st.markdown("---")
+
     # --- Sección FAQs ---
     st.markdown('<div id="faqs"></div>'
-                '<hr style="border-top: 1px solid #bbb;">'
                 , unsafe_allow_html=True)
     st.markdown("### Frequently asked questions (FAQs)")
 
