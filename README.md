@@ -85,9 +85,9 @@ streamlit run .\main.py
 The repository is structured as follows:
 ```
     .
-    ├── models                   # Models Folder: Contains the trained models implemented in a Python notebook and stored in a h5 format using Tensorflow. 
-    ├── pages                    # Pages Folder: Contains the different pages of the Multi-Page Streamlit app.
-    ├── static                   # Static files folder: Contains any kind of static files such as images, constants, etc.
+    ├── models/                  # Models Folder: Contains the trained models implemented in a Python notebook and stored in a h5 format using Tensorflow. 
+    ├── pages/                   # Pages Folder: Contains the different pages of the Multi-Page Streamlit app.
+    ├── static/                  # Static files folder: Contains any kind of static files such as images, constants, etc.
     ├── .gitignore               # File to allow Git to ignore any kind of files in the repository.
     ├── main.py                  # Main script: File in charge of running the application and establishing the most important methods such as Pagination.
     ├── README.md                # Documentation file that stores a brief explanation about the project                
