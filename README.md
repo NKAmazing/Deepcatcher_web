@@ -59,7 +59,7 @@ Multi-page Web Interface built with Streamlit, an open-source Python framework f
 python3 -m venv .
 ```
 
-2. Activar el entorno virtual:
+2. Activate the Virtual Environment:
 
 ```sh
 cd .\Scripts\
@@ -91,7 +91,8 @@ The repository is structured as follows:
     ├── .gitignore               # File to allow Git to ignore any kind of files in the repository.
     ├── main.py                  # Main script: File in charge of running the application and establishing the most important methods such as Pagination.
     ├── README.md                # Documentation file that stores a brief explanation about the project                
-    └── requirements.txt         # Software Dependencies and Libraries that provides support for the software functionalities.
+    ├── requirements.txt         # Software Dependencies and Libraries that provides support for the software functionalities.
+    └── test_gpu.py              # Test Gpu script: File to list, test, and verify the correct use of the PC's dedicated GPU.
 ```
 
 ## Credits
