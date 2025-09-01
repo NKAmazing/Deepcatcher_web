@@ -36,12 +36,108 @@ def report_view():
     # Show the selected prediction
     prediction = next((p for p in predictions if p['id'] == int(prediction_id)), None)
     if prediction:
-        st.subheader("Selected Prediction")
-        st.image(prediction['image'], caption=f"{prediction['predicted_class']} - {prediction['confidence']:.2f}%")
-        st.write(f"Prediction made on {prediction['timestamp'].split('T')[0]} at {prediction['timestamp'].split('T')[1].split('.')[0]}")
+        # Definir color y texto según la clase predicha
+        if prediction['predicted_class'] == 'Real':
+            value_color = 'green'
+            value_text = 'REAL'
+        else:
+            value_color = 'red'
+            value_text = 'FAKE'
+
+        # --- Cuadro tipo blur-box para la predicción seleccionada ---
+        st.markdown(
+            """
+            <style>
+            .blur-box-report {
+                margin: 30px auto 30px auto;
+                padding: 28px 24px 24px 24px;
+                max-width: 700px;
+                width: 98%;
+                border-radius: 18px;
+                background: rgba(30, 34, 50, 0.45);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1.5px solid rgba(255,255,255,0.18);
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 28px;
+            }
+            .blur-report-img {
+                flex: 1;
+                max-width: 180px;
+                min-width: 120px;
+                border-radius: 16px;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+                background: #fff;
+                margin-right: 18px;
+            }
+            .blur-report-content {
+                flex: 2;
+                text-align: left;
+            }
+            .blur-report-title {
+                font-size: 1.3rem;
+                font-weight: bold;
+                color: #fff;
+                margin-bottom: 8px;
+                font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+            }
+            .blur-report-pred {
+                font-size: 1.1rem;
+                font-weight: bold;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .blur-report-value {
+                font-size: 1.1rem;
+                font-weight: bold;
+            }
+            .blur-report-desc {
+                font-size: 1.05rem;
+                color: #e0e0e0;
+                margin-bottom: 8px;
+            }
+            @media (max-width: 700px) {
+                .blur-box-report {
+                    flex-direction: column;
+                    text-align: center;
+                    gap: 12px;
+                }
+                .blur-report-content {
+                    text-align: center;
+                }
+                .blur-report-img {
+                    margin: 0 auto 12px auto;
+                }
+            }
+            </style>
+            """, unsafe_allow_html=True
+        )
+        st.markdown(
+            f"""
+            <div class="blur-box-report">
+                <img src="{prediction['image']}" class="blur-report-img" width="140"/>
+                <div class="blur-report-content">
+                    <div class="blur-report-title">Prediction Details</div>
+                    <div class="blur-report-pred">
+                        <span style="color: #FFD600;">Prediction:&nbsp;</span>
+                        <span class="blur-report-value" style="color: {value_color};">{value_text}</span>
+                        <span style="color: #fff;">&mdash; {prediction['confidence']:.2f}%</span>
+                    </div>
+                    <div class="blur-report-desc">
+                        Prediction made on {prediction['timestamp'].split('T')[0]} at {prediction['timestamp'].split('T')[1].split('.')[0]}
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True
+        )
 
     # Report form
-    st.subheader("Report Prediction")
+    st.subheader("Report Prediction Form")
     title = st.text_input("Title")
     description = st.text_area("Description")
 
@@ -70,12 +166,69 @@ def reports_history_view():
     # Obtener reportes del usuario
     user_id = get_user_id(st.session_state.token)
     reports = get_user_reports(user_id, st.session_state.token)
+    # Obtener predicciones del usuario
+    predictions = get_prediction_history(user_id, st.session_state.token)
 
     if reports:
         st.subheader("Reports History")
+        # Agrega el CSS solo una vez
+        st.markdown(
+            """
+            <style>
+            .blur-box-report {
+                margin: 18px auto 18px auto;
+                padding: 18px 18px 18px 18px;
+                max-width: 260px;
+                width: 98%;
+                border-radius: 18px;
+                background: rgba(30, 34, 50, 0.45);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1.5px solid rgba(255,255,255,0.18);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            .blur-report-img {
+                max-width: 180px;
+                min-width: 120px;
+                border-radius: 16px;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+                background: #fff;
+                margin-bottom: 8px;
+            }
+            </style>
+            """, unsafe_allow_html=True
+        )
         for report in reports:
             status_color = "yellow" if report['status'] == 'Pending' else "green"
             with st.expander(f"Report: {report['title']} - {report['timestamp'].split('T')[0]} at {report['timestamp'].split('T')[1].split('.')[0]}"):
+                # Buscar la predicción correspondiente por ID
+                pred_img = None
+                if predictions:
+                    pred = next((p for p in predictions if p['id'] == report['prediction']), None)
+                    if pred and pred.get('image'):
+                        pred_img = pred['image']
+                if pred_img:
+                    # Obtener la clase predicha y el color
+                    pred_class = pred.get('predicted_class', '').upper()
+                    if pred_class == 'REAL':
+                        value_color = 'green'
+                    else:
+                        value_color = 'red'
+                    st.markdown(
+                        f"""
+                        <div class="blur-box-report">
+                            <img src="{pred_img}" class="blur-report-img" width="140"/>
+                            <div style="margin-top:6px; font-size:1.05rem; font-weight:bold;">
+                                <span style="color: #FFD600;">Predicted Class:&nbsp;</span>
+                                <span style="color:{value_color};">{pred_class}</span>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True
+                    )
                 st.write(f"**Title:** {report['title']}")
                 st.write(f"**Description:** {report['description']}")
                 st.write(f"**Reported on:** {report['timestamp'].split('T')[0]} at {report['timestamp'].split('T')[1].split('.')[0]}")
