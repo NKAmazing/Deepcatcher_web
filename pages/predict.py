@@ -504,23 +504,36 @@ def tutorial_option():
             ## Tutorial - Prediction
 
             Welcome to the Deepcatcher Demo Prediction page! Here you can upload images and get predictions on whether they are real or fake. Let's see a little guide on how to use this page.
-
-            ### Instructions:
-            1. **Select an Option**: Choose between the **Predict** option to upload images and get predictions, or the **History** option to view your prediction history.
-            2. **Upload Images**: Click on the **Choose images...** button to upload images for prediction.
-            3. **View Predictions**: After uploading images, you will see the prediction results displayed below each image.
-            4. **Save Predictions**: You can save the prediction results by clicking the **Save Prediction** button below each image.
-            5. **View History**: Click on the **History** option to view your saved predictions history.
-
-            ### Note:
-            - **Authentication**: To save predictions, you need to be logged in. Use the **User Authentication** option in the sidebar to sign in or sign up.
-            - **Prediction Limit**: You can save up to 10 predictions. Once you reach the limit, you will not be able to save more predictions.
-
-            ### Help Guide Video
-            - Watch the video below to learn more about how to use the Deepcatcher Demo Prediction page.
-                
             """
         )
+
+    # Border bottom
+    st.markdown("---")
+
+    st.markdown(
+        """
+### Instructions:
+1. **Select an Option**: Choose between the **Predict** option to upload images and get predictions, or the **History** option to view your prediction history.
+2. **Upload Images**: Click on the **Choose images...** button to upload images for prediction.
+3. **View Predictions**: After uploading images, you will see the prediction results displayed below each image.
+4. **Save Predictions**: You can save the prediction results by clicking the **Save Prediction** button below each image.
+5. **View History**: Click on the **History** option to view your saved predictions history.
+
+#### Note:
+- **Authentication**: To save predictions, you need to be logged in. Use the **User Authentication** option in the sidebar to sign in or sign up.
+- **Prediction Limit**: You can save up to 10 predictions. Once you reach the limit, you will not be able to save more predictions.
+        """
+    )
+
+    # Border bottom
+    st.markdown("---")
+
+    st.markdown(
+        """
+         ### Help Guide Video
+            - Watch the video below to learn more about how to use the Deepcatcher Demo Prediction page.
+        """
+    )
 
     # Display the video
     st.video("https://youtu.be/O3HEp2P_MAk")
