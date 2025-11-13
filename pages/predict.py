@@ -7,19 +7,19 @@ import requests
 from streamlit_elements import elements, mui
 from pages.utils.auth import show_sidebar_auth
 from pages.utils.footer import footer
+from pages.utils.model_selector import select_model
+from pages.utils.model_selector import show_actual_model
+from pages.utils.model_selector import load_model_path
 
 # List of Model paths
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
 
-# Load the model
-model_index = 3  # Cambiar este índice para elegir el modelo (lista model_paths)
-model = tf.keras.models.load_model(model_paths[model_index])
+# Elimina la carga inicial fija del modelo (quitar model_index y tf.keras.models.load_model aquí)
 
-# Definir el tamaño de entrada esperado según el modelo
-if model_index in [2, 3]:  # mobilenet_model.h5 o xception_model.h5
-    model_input_size = (224, 224)
-else:  # model_3.h5 o model_4.h5
-    model_input_size = (96, 96)
+# Añadir helper cacheado para cargar modelos (evita recargas en cada rerun)
+@st.cache_resource
+def load_keras_model(path: str):
+    return tf.keras.models.load_model(path)
 
 # Set the page configuration
 st.set_page_config(page_title="Deepcatcher Demo - Prediction", page_icon=":computer:")
@@ -29,6 +29,24 @@ st.sidebar.title("🖥️ Deepcatcher Demo")
 
 # Set the options in the sidebar
 options = st.sidebar.radio("Select an option: ", ["Predict Menu", "Tutorial"])
+
+# Show the select model selector in the sidebar
+selected_model = select_model()
+
+# Show the actual model selected in the sidebar
+show_actual_model(selected_model)
+
+# Load the selected model path (esto solo devuelve la ruta)
+model_path = load_model_path(selected_model)
+
+# Ahora sí cargamos el modelo con la ruta seleccionada (cached)
+model = load_keras_model(model_path)
+
+# Definir el tamaño de entrada esperado según el modelo cargado
+if "mobilenet" in model_path or "xception" in model_path:
+    model_input_size = (224, 224)
+else:
+    model_input_size = (96, 96)
 
 # Show the login sidebar
 show_sidebar_auth()
