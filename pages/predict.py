@@ -10,6 +10,7 @@ from pages.utils.footer import footer
 from pages.utils.model_selector import select_model
 from pages.utils.model_selector import show_actual_model
 from pages.utils.model_selector import load_model_path
+from pages.utils.date_format import format_timestamp_natural
 
 # List of Model paths
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
@@ -315,7 +316,7 @@ def display_prediction_history(predictions, token):
                                 ),
                                 mui.Typography(
                                     # Separate the date and time
-                                    f"Saved the date {prediction['timestamp'].split('T')[0]} at {prediction['timestamp'].split('T')[1].split('.')[0]}",
+                                    f"Saved on {format_timestamp_natural(prediction['timestamp'])}",
                                     style={"fontSize": "0.9rem"}
                                 )
                             )
@@ -419,9 +420,7 @@ def predict_view():
                         # Centrar el caption debajo de la imagen, solo texto color celeste
                         caption_html = f'''
                         <div style="display: flex; justify-content: center;">
-                            <span style="color: #00B8D4; font-size: 1rem; margin-top: 8px;">
-                                Uploaded Image ({predicted_class}, {confidence:.2f}%)
-                            </span>
+                            <span style="color: #00B8D4; font-weight: bold; font-size: 1.1rem;">Confidence: {confidence:.2f}%</span>
                         </div>
                         '''
                         cols[i].markdown(caption_html, unsafe_allow_html=True)
@@ -489,9 +488,7 @@ def predict_view():
                                     # Centrar el caption debajo de la imagen, solo texto color celeste
                                     caption_html = f'''
                                     <div style="display: flex; justify-content: center;">
-                                        <span style="color: #00B8D4; font-size: 1rem; margin-top: 8px;">
-                                            Uploaded Image ({predicted_class}, {confidence:.2f}%)
-                                        </span>
+                                        <span style="color: #00B8D4; font-weight: bold; font-size: 1.1rem;">Confidence: {confidence:.2f}%</span>
                                     </div>
                                     '''
                                     st.markdown(caption_html, unsafe_allow_html=True)

@@ -5,7 +5,7 @@ from streamlit_option_menu import option_menu
 from pages.utils.auth import show_sidebar_auth
 
 # Set the page configuration
-st.set_page_config(page_title="Deepcatcher Demo - Home", page_icon=":clipboard:")
+st.set_page_config(page_title="Deepcatcher Demo - Report", page_icon=":clipboard:")
 
 # Show the login sidebar
 show_sidebar_auth()

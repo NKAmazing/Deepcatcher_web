@@ -4,8 +4,8 @@ import streamlit as st
 model_paths = ['models/model_3.h5', 'models/model_4.h5', 'models/mobilenet_model.h5', 'models/xception_model.h5']
 
 models_options = {
-    "MobileNet": model_paths[2],
     "Xception": model_paths[3],
+    "MobileNet": model_paths[2]
 }
 
 def select_model(models=list(models_options.keys()), label="Select a model: ", index=0):
@@ -30,4 +30,4 @@ def show_actual_model(selected_model):
     Muestra el modelo actual seleccionado en el sidebar.
     """
     with st.sidebar:
-        st.markdown(f"**Current Model:** {selected_model}")
+        st.markdown(f"**⚙️Current AI Model:** {selected_model}")
